@@ -13,7 +13,7 @@ Parsel.Lexer = {
                 || this.isLiteral(chunk);
 
       if(!params.diff) {
-        // error
+        // errors
       }
 
       i += params.diff;
@@ -24,25 +24,80 @@ Parsel.Lexer = {
   },
 
   isKeyword : function(c) {
+    var token = this.regKeyword.exec(c);
 
+    if(token) {
+      return token[0].length;
+    }
+
+    return 0;
   },
 
   isWhiteSpace : function (c) { 
-    return /\s/.test(c); 
+    var token = this.regWhitespace.exec(c);
+
+    if(token) {
+      return token[0].length;
+    }
+
+    return 0;
   },
 
   isString : function(c) {
     // call keyword after finding quote
+    if(!(c[0] == "\"" || c[1]=="'")) {
+      return 0;
+    } 
+
+    var token = this.regWhitespace.exec(c.slice(1));
+
+    if(token) {
+      return token[0].length;
+    }
+
+    return 0;
+  },
+
+  isNumber : function(c) {
+    var token = this.regNumber.exec(c);
+
+    if(token) {
+      return token[0].length;
+    }
+
+    return 0;
   },
 
   isLiteral : function(c) {
+    var tag = chunk.slice(0, 1);
+    switch(tag) {
+    case '=':
+    case ':':
+    case '.':
+    case ',':
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '%':
+    case '[':
+    case ']':
+    case '{':
+    case '}':
+    case '(':
+    case ')':
+        tokens.push([tag, tag]);
+        return 1;
+    }
 
-  }
+    return 0;
+  },
 
 
+  regKeyword : /^[a-zA-Z][a-zA-Z0-9]*/,
+  regNumber : /^-?[0-9]+(\.[0-9]+)?/,
+  regComment : /^\/\/.*/,
+  regWhitespace : /^[^\n\S]+/,
+  regIndent : /^(?:\n[^\n\S]*)+/
 
-  var isOperator = function (c) {  },
-  isDigit = function (c) { return /[0-9]/.test(c); },
-  
-  isIdentifier = function (c) { return typeof c === "string" && !isOperator(c) && !isDigit(c) && !isWhiteSpace(c); };
 }

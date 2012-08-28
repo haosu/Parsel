@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="handlebars.js"></script>
+  <script type="text/javascript" src="../src/parsel.js"></script>
+  <script type="text/javascript" src="jquery.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+  $(function(){
+
+
+    Handlebars.compile($("#test").html())({
+      show : "show",
+      images : "images",
+      project : "project",
+      of : "of",
+      thru : "through",
+      through : "through",
+      to : "to",
+      nav : "navigation",
+      navigation : "navigation",
+      plus : "plus"
+    }); 
+
+  })
+</script>
+<script id="test" type="text/x-handlebars-template">
+  {{show images of the project}}
+  {{show navigation as a list}}
+  {{show the foundation of the project "Strang Attractors"}}
+  {{show images 1 through 3 5 and 7 of the project}}
+  {{show nav as a grid from the foundation "Graphic Design"}}
+  {{show images of the project as thumbnails plus overlays}}
+</script>
+
+</body>
+</html>
